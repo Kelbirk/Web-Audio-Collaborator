@@ -1,0 +1,26 @@
+<html>  
+	<head>  
+		<script src="adapter.js"></script>
+		<script src="AudioContextMonkeyPatch.js"></script>
+
+<script>
+
+function gotStream(stream) {
+    window.AudioContext = window.AudioContext || window.webkitAudioContext;
+    var audioContext = new AudioContext();
+
+    // Create an AudioNode from the stream.
+    var mediaStreamSource = audioContext.createMediaStreamSource( stream );
+
+    // Connect it to the destination to hear yourself (or any other node for processing!)
+    mediaStreamSource.connect( audioContext.destination );
+}
+
+function gotError(e) {
+	console.log("GUM Error: " + e);
+}
+
+navigator.getUserMedia( {audio:true}, gotStream, gotError);
+</script>
+	</head>
+</html>
